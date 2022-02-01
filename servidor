@@ -26,7 +26,7 @@ def dados_recebidos(conexao, dados):
             conexao.enviar(b':server PONG server :' + texto)
 
         if requisicao == b'NICK':
-            if validar_nome(texto):
+            if (validar_nome(texto)):
                 conexao.enviar(b':server 001 ' + texto + b' :Welcome\r\n')
                 conexao.enviar(b':server 422 ' + texto + b' :MOTD File is missing\r\n')
             else:
