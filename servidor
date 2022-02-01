@@ -20,7 +20,8 @@ def dados_recebidos(conexao, dados):
         return sair(conexao)
 
     # aqui está o passo 1
-    conexao.enviar(b':server PONG server :' + dados.split(b' ',1)[1])
+    if dados:
+        conexao.enviar(b':server PONG server :' + dados.split(b' ',1)[1])
 
     #aqui está o passo 2
     if dados.endswith(b'\r\n'):
