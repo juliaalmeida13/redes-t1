@@ -30,7 +30,7 @@ def dados_recebidos(conexao, dados):
                 conexao.enviar(b':server 001 ' + texto + b' :Welcome\r\n')
                 conexao.enviar(b':server 422 ' + texto + b' :MOTD File is missing\r\n')
             else:
-                conexao.enviar(b':server 432 ' + texto + b' :Erroneous nickname\r\n')    
+                conexao.enviar(b':server 432 ' + texto + b' '+ texto + b' :Erroneous nickname\r\n')    
 
     print(conexao, dados)
 
