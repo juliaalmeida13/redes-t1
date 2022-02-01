@@ -28,12 +28,13 @@ def dados_recebidos(conexao, dados):
         dados = dados.split(b'\r\n')
         dados = list(filter((b'').__ne__, dados))
         conexao.dados_residuais += dados.pop(-1)
-        
+
     print(conexao, dados)
 
 
 def conexao_aceita(conexao):
     print(conexao, 'nova conexão')
+    conexao.dados_residuais = b''
     conexao.registrar_recebedor(dados_recebidos)
 
 
