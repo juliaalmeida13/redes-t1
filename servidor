@@ -24,13 +24,14 @@ def dados_recebidos(conexao, dados):
         conexao.enviar(b':server PONG server :' + dados.split(b' ',1)[1])
 
     #aqui está o passo 2
-    if dados.endswith(b'\r\n'):
-        dados = dados.split(b'\r\n')
-        dados = list(filter((b'').__ne__, dados))
-    else:
+    if not dados.endswith(b'\r\n'):
         dados = dados.split(b'\r\n')
         dados = list(filter((b'').__ne__, dados))
         conexao.dados_residuais += dados.pop(-1)
+    
+    else:
+        dados = dados.split(b'\r\n')
+        dados = list(filter((b'').__ne__, dados))
 
     print(conexao, dados)
 
