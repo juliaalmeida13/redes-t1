@@ -20,17 +20,25 @@ def dados_recebidos(conexao, dados):
         return sair(conexao)
     
     if dados:
-        requisicao, texto = dados.split(b' ', 1)
+        request, text = dados.split(b' ', 1)
         #conexao.enviar(b':server PONG server :' + dados.split(b' ',1)[1])
-        if requisicao == b'PING':
-            conexao.enviar(b':server PONG server :' + texto)
+        if request == b'PING':
+            conexao.enviar(b':server PONG server :' + text)
 
-        if requisicao == b'NICK':
-            if (validar_nome(texto)):
-                conexao.enviar(b':server 001 ' + texto + b' :Welcome\r\n')
-                conexao.enviar(b':server 422 ' + texto + b' :MOTD File is missing\r\n')
+        if request == b'NICK':
+            if (validar_nome(text)):
+                nickAlreadyUse = 0
+                for i in servidor.users_conected:
+                    if i.IdNick.upper() == text.upper():
+                        nickAlreadyUse = 1
+                        conexao.enviar(b':server 433 ' + conexao.IdNick + b' ' + text + b' :Nickname is already in use\r\n')
+                if nickAlreadyUse == 0:
+                    if conexao.IdNick == b'*':
+                        conexao.enviar(b':server 001 ' + text + b' :Welcome\r\n')
+                        conexao.enviar(b':server 422 ' + text + b' :MOTD File is missing\r\n')
+                        conexao.IdNick = text
             else:
-                conexao.enviar(b':server 432 ' + texto + b' '+ texto + b' :Erroneous nickname\r\n')    
+                conexao.enviar(b':server 432 ' + conexao.IdNick + b' ' + text + b' :Erroneous nickname\r\n')    
 
     print(conexao, dados)
 
@@ -38,9 +46,11 @@ def dados_recebidos(conexao, dados):
 def conexao_aceita(conexao):
     print(conexao, 'nova conexão')
     conexao.dados_residuais = b''
+    conexao.IdNick = b'*'
     conexao.registrar_recebedor(dados_recebidos)
 
 
 servidor = Servidor(6667)
+servidor.users_conected = []
 servidor.registrar_monitor_de_conexoes_aceitas(conexao_aceita)
 asyncio.get_event_loop().run_forever()
