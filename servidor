@@ -21,7 +21,8 @@ def dados_recebidos(conexao, dados):
     
     if dados:
         for requisicao in dados:
-            operacao, texto  = requisicao.split(b' ',1)
+            operacao = requisicao.split(b' ',1)[0]
+            texto = requisicao.split(b' ',1)[1]
 
             # aqui está o passo 1
             if operacao.upper() == b'PING':               
