@@ -24,7 +24,7 @@ def dados_recebidos(conexao, dados):
         for requisicao in dados:
             operacao , texto  = requisicao.split(b' ',1)
             if operacao == b'PING':                
-                conexao.enviar(b':server PONG server :' + texto)
+                conexao.enviar(b':server PONG server :' + texto + b'\r\n')
 
     #aqui está o passo 2
     if not dados.endswith(b'\r\n'):
