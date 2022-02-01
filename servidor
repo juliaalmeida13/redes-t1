@@ -19,6 +19,15 @@ def dados_recebidos(conexao, dados):
     if dados == b'':
         return sair(conexao)
     
+    if not dados.endswith(b'\r\n'):
+        dados = dados.split(b'\r\n')
+        dados = list(filter((b'').__ne__, dados))
+        conexao.dados_residuais += dados.pop(-1)
+    
+    else:
+        dados = dados.split(b'\r\n')
+        dados = list(filter((b'').__ne__, dados))
+    
     if dados:
         request, text = dados.split(b' ', 1)
         #conexao.enviar(b':server PONG server :' + dados.split(b' ',1)[1])
