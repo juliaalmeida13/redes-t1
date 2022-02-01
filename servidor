@@ -47,6 +47,7 @@ def conexao_aceita(conexao):
     print(conexao, 'nova conexão')
     conexao.dados_residuais = b''
     conexao.IdNick = b'*'
+    servidor.users_conected.append(conexao)
     conexao.registrar_recebedor(dados_recebidos)
 
 
