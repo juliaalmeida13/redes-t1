@@ -26,17 +26,7 @@ def dados_recebidos(conexao, dados):
 
             # aqui está o passo 1
             if operacao.upper() == b'PING':               
-                conexao.enviar(b':server PONG server :' + texto)
-
-    #aqui está o passo 2
-    if not dados.endswith(b'\r\n'):
-        dados = dados.split(b'\r\n')
-        dados = list(filter((b'').__ne__, dados))
-        conexao.dados_residuais += dados.pop(-1)
-    
-    else:
-        dados = dados.split(b'\r\n')
-        dados = list(filter((b'').__ne__, dados))
+                conexao.enviar(b':server PONG server :' + texto)    
 
     print(conexao, dados)
 
