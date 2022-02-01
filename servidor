@@ -18,12 +18,13 @@ def dados_recebidos(conexao, dados):
     conexao.dados_residuais = b''
     if dados == b'':
         return sair(conexao)
-
-    # aqui está o passo 1
+    
     if dados:
         for requisicao in dados:
-            operacao , texto  = requisicao.split(b' ',1)
-            if operacao.upper() == b'PING':                
+            operacao, texto  = requisicao.split(b' ',1)
+
+            # aqui está o passo 1
+            if operacao.upper() == b'PING':               
                 conexao.enviar(b':server PONG server :' + texto + b'\r\n')
 
     #aqui está o passo 2
