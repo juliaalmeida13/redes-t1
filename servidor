@@ -14,7 +14,7 @@ def sair(conexao):
 
 
 def dados_recebidos(conexao, dados):
-    dados = conexao.dados_resuduais + dados
+    dados = conexao.dados_residuais + dados
     conexao.dados_residuais = b''
     if dados == b'':
         return sair(conexao)
@@ -37,7 +37,7 @@ def dados_recebidos(conexao, dados):
 
 def conexao_aceita(conexao):
     print(conexao, 'nova conexão')
-    conexao.dados_residuais = b
+    conexao.dados_residuais = b''
     conexao.registrar_recebedor(dados_recebidos)
 
 
