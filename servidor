@@ -55,8 +55,8 @@ def dados_recebidos(conexao, dados):
                     
                     if nick_usado == 0:
                         if conexao.nickid == b'*': 
-                            conexao.enviar(b':server 001 ' + text + b' :Welcome\r\n')
-                            conexao.enviar(b':server 422 ' + text + b' :MOTD File is missing\r\n')
+                            conexao.enviar(b':server 001 ' + text + b' :Welcome\r\n' + b':server 422 ' + text + b' :MOTD File is missing\r\n')
+                            #conexao.enviar(b':server 422 ' + text + b' :MOTD File is missing\r\n')
                             conexao.nickid = text
                         
                         else: 
