@@ -14,6 +14,19 @@ def dados_recebidos(conexao, dados):
     dados = conexao.dados_residuais + dados
     conexao.dados_residuais = b''
 
+     # Passos 8 e 10: mensagens QUIT
+    if dados == b'':
+        temp_list = []  # Criando lista de envios de mensagens
+        for canal in conexao.canais:
+            servidor.canais[canal].pop(conexao.nickid, None)
+            for chave in servidor.canais[canal]:
+                 temp_list.append(servidor.canais[canal][chave])
+        temp_list = list(dict.fromkeys(temp_list)) # Duplicados
+        for item in temp_list: # Envia sinal QUIT e remove a pessoa que esta saindo da conexão
+                item.enviar(b':' + conexao.nickid + b' QUIT :Connection closed\r\n')
+        servidor.conexoes.remove(conexao)
+        return sair(conexao)
+
     # Passo 2: tratamento de mensagens quebradas
     if not dados.endswith(b'\r\n'):
         dados = dados.split(b'\r\n')
@@ -108,20 +121,7 @@ def dados_recebidos(conexao, dados):
                             servidor.canais[text.upper()][chave].enviar(b':' + conexao.nickid + b' PART ' + text + b'\r\n')
                         del servidor.canais[text.upper()][conexao.nickid]
                         conexao.canais.remove(text.upper())
-            
-             # Passos 8 e 10: mensagens QUIT
-            if dados == b'':
-                temp_list = []  # Criando lista de envios de mensagens
-                for canal in conexao.canais:
-                    servidor.canais[canal].pop(conexao.nickid, None)
-                    for chave in servidor.canais[canal]:
-                        temp_list.append(servidor.canais[canal][chave])
-                temp_list = list(dict.fromkeys(temp_list)) # Duplicados
-                for item in temp_list: # Envia sinal QUIT e remove a pessoa que esta saindo da conexão
-                    item.enviar(b':' + conexao.nickid + b' QUIT :Connection closed\r\n')
-                servidor.conexoes.remove(conexao)
-                return sair(conexao)
-                            
+                                   
             print(conexao, dados)
                 
 def conexao_aceita(conexao):
