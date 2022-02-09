@@ -124,5 +124,5 @@ def conexao_aceita(conexao):
 servidor = Servidor(6667)
 servidor.canais = {}
 servidor.conections = []
-servidor.registrar_monitor_de_conections_aceitas(conexao_aceita)
+servidor.registrar_monitor_de_conexoes_aceitas(conexao_aceita)
 asyncio.get_event_loop().run_forever()
