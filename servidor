@@ -36,7 +36,7 @@ def dados_recebidos(conexao, data):
             if request.upper() == b'NICK':
                 if(validar_nome(text)):
                     nick_usado = 0
-                    for i in servidor.conections :
+                    for i in servidor.conexoes :
                         if i.nickid.upper() == text.upper() and i != conexao:
                             nick_usado = 1
                             conexao.enviar(b':server 433 ' + conexao.nickid + b' ' + text + b' :Nickname is already in use\r\n')
@@ -64,7 +64,7 @@ def dados_recebidos(conexao, data):
 
                 else:
                     dest_conexao = None
-                    for i in servidor.conections:
+                    for i in servidor.conexoes:
                         if i.nickid.upper() == destinatario.upper():
                             dest_conexao = i
                     if dest_conexao:
@@ -116,13 +116,13 @@ def conexao_aceita(conexao):
     conexao.nickid = b'*'
     conexao.data_res = b''
     conexao.canais = []
-    servidor.conections.append(conexao)
+    servidor.conexoes.append(conexao)
     conexao.registrar_recebedor(dados_recebidos)
 
     
 # Execução do servidor    
 servidor = Servidor(6667)
 servidor.canais = {}
-servidor.conections = []
+servidor.conexoes = []
 servidor.registrar_monitor_de_conexoes_aceitas(conexao_aceita)
 asyncio.get_event_loop().run_forever()
