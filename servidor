@@ -29,13 +29,11 @@ def dados_recebidos(conexao, dados):
 
     # Passo 2: tratamento de mensagens quebradas
     if not dados.endswith(b'\r\n'):
-        dados = dados.split(b'\r\n')
-        dados = list(filter((b'').__ne__, dados))
+        dados = list(filter((b'').__ne__, dados.split(b'\r\n')))
         conexao.dados_residuais += dados.pop(-1)
     
     else:
-        dados = dados.split(b'\r\n')
-        dados = list(filter((b'').__ne__, dados))   
+        dados = list(filter((b'').__ne__, dados.split(b'\r\n')))   
         
     if dados:
         for message in dados:   
