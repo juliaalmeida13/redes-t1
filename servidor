@@ -10,22 +10,22 @@ def sair(conexao):
     print(conexao, 'conexão fechada')
     conexao.fechar()
 
-def dados_recebidos(conexao, data):
-    data = conexao.dados_residuais + data
+def dados_recebidos(conexao, dados):
+    dados = conexao.dados_residuais + dados
     conexao.dados_residuais = b''
 
     # Passo 2: tratamento de mensagens quebradas
-    if not data.endswith(b'\r\n'):
-        data = data.split(b'\r\n')
-        data = list(filter((b'').__ne__, data))
-        conexao.dados_residuais += data.pop(-1)
+    if not dados.endswith(b'\r\n'):
+        dados = dados.split(b'\r\n')
+        dados = list(filter((b'').__ne__, dados))
+        conexao.dados_residuais += dados.pop(-1)
     
     else:
-        data = data.split(b'\r\n')
-        data = list(filter((b'').__ne__, data))   
+        dados = dados.split(b'\r\n')
+        dados = list(filter((b'').__ne__, dados))   
         
-    if data:
-        for message in data:   
+    if dados:
+        for message in dados:   
             request, text = message.split(b' ', 1)
             
             # Passo 1: tratando mensagens do tipo 'PING'
@@ -109,7 +109,7 @@ def dados_recebidos(conexao, data):
                         del servidor.canais[text.upper()][conexao.nickid]
                         conexao.canais.remove(text.upper())
                             
-            print(conexao, data)
+            print(conexao, dados)
                 
 def conexao_aceita(conexao):
     print(conexao, 'nova conexão')
