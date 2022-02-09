@@ -56,7 +56,6 @@ def dados_recebidos(conexao, dados):
                     if nick_usado == 0:
                         if conexao.nickid == b'*': 
                             conexao.enviar(b':server 001 ' + text + b' :Welcome\r\n' + b':server 422 ' + text + b' :MOTD File is missing\r\n')
-                            #conexao.enviar(b':server 422 ' + text + b' :MOTD File is missing\r\n')
                             conexao.nickid = text
                         
                         else: 
@@ -104,8 +103,8 @@ def dados_recebidos(conexao, dados):
                         conexao.enviar(send + b'\r\n')
                         send = restante
                         
-                    conexao.enviar(send + b'\r\n')
-                    conexao.enviar(b':server 366 ' + conexao.nickid + b' ' + text + b' :End of /NAMES list.\r\n')
+                    conexao.enviar(send + b'\r\n' + b':server 366 ' + conexao.nickid + b' ' + text + b' :End of /NAMES list.\r\n')
+                    #conexao.enviar(b':server 366 ' + conexao.nickid + b' ' + text + b' :End of /NAMES list.\r\n')
                         
                 else:
                     conexao.enviar(b':server 403 ' + text + b' :No such channel.\r\n')
