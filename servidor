@@ -11,14 +11,14 @@ def sair(conexao):
     conexao.fechar()
 
 def dados_recebidos(conexao, data):
-    data = conexao.data_res + data
-    conexao.data_res = b''
+    data = conexao.dados_residuais + data
+    conexao.dados_residuais = b''
 
     # Passo 2: tratamento de mensagens quebradas
     if not data.endswith(b'\r\n'):
         data = data.split(b'\r\n')
         data = list(filter((b'').__ne__, data))
-        conexao.data_res += data.pop(-1)
+        conexao.dados_residuais += data.pop(-1)
     
     else:
         data = data.split(b'\r\n')
@@ -114,7 +114,7 @@ def dados_recebidos(conexao, data):
 def conexao_aceita(conexao):
     print(conexao, 'nova conexão')
     conexao.nickid = b'*'
-    conexao.data_res = b''
+    conexao.dados_residuais = b''
     conexao.canais = []
     servidor.conexoes.append(conexao)
     conexao.registrar_recebedor(dados_recebidos)
